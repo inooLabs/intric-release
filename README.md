@@ -51,6 +51,66 @@ To run the frontend for this project locally, follow these steps:
 6. Run `pnpm -w run dev` to start the project for development.
 7. Navigate to `localhost:3000` and login with email `user@example.com` and password `Password1!` (provided you have run the setup steps for the backend).
 
+## Using Devcontainer for Development
+
+The project is configured to use a devcontainer, which allows you to develop in a consistent environment using Visual Studio Code and Docker. Follow these steps to get started:
+
+1. **Install Prerequisites**:
+   - Ensure you have Docker installed on your machine.
+   - Install Visual Studio Code and the Remote - Containers extension.
+
+2. **Copy Environment Files**:
+   - Before starting development, you need to set up your environment files:
+     ```bash
+     # In the backend directory
+     cp .env.template .env
+
+     # In the frontend/apps/web directory
+     cp .env.example .env
+     ```
+   - Remember to update these .env files with appropriate values.
+
+3. **Open the Project in a Devcontainer**:
+   - Open the project folder in Visual Studio Code.
+   - When prompted, or by clicking on the green icon in the bottom-left corner, select "Reopen in Container".
+   - This will build the devcontainer as defined in `.devcontainer/devcontainer.json` and `.devcontainer/docker-compose.yml`.
+
+4. **Accessing Services**:
+   - The devcontainer setup will automatically forward ports 3000 and 8123, allowing you to access the frontend and any other services running on these ports.
+
+5. **Post-Create Commands**:
+   - After the container is created, the `postCreateCommand` specified in `.devcontainer/devcontainer.json` will run, setting up the environment.
+
+6. **Developing**:
+   - You can now develop as usual within the container. The environment will have all necessary dependencies installed and configured.
+
+   **Important Notes**:
+   - Database migrations are not run automatically. After the container is created, you'll need to run:
+     ```bash
+     cd backend
+     poetry run python init_db.py
+     ```
+   - You'll need to manually start both the backend and frontend services in separate terminal windows:
+
+     For the backend:
+     ```bash
+     cd backend
+     poetry run start
+     ```
+
+     For the frontend:
+     ```bash
+     cd frontend
+     pnpm run dev
+     ```
+
+     Running the frontend and backend in separate terminal windows gives you better control over each service's lifecycle. This makes it easier to restart individual services when needed, such as after installing new dependencies or when troubleshooting issues.
+
+7. **Stopping the Devcontainer**:
+   - To stop the devcontainer, simply close Visual Studio Code or use the "Remote - Containers: Reopen Folder Locally" command.
+
+This setup ensures that all developers work in the same environment, reducing "it works on my machine" issues.
+
 ## Contribution guidelines
 
 Coming soon.
